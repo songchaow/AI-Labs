@@ -36,3 +36,18 @@ class Searcher
     }
     bool getSolved() {return solved;}
 };
+
+class Ah1Searcher : public Searcher
+{
+    // get the number of misplaced tiles in state
+    int misplaced_herustic(State &state);
+    bool search_loop();
+    void init();
+public:
+    Ah1Searcher(State &init_state):Searcher(init_state)
+    {
+        ;
+    }
+    void reset();
+    void search();
+};
