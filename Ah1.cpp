@@ -77,4 +77,4 @@ class Ah1Searcher : public Searcher
         while(search_count<=max_search_count)
             search_loop();
     }
-}
+};

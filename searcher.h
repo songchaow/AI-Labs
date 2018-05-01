@@ -1,3 +1,6 @@
+#ifndef SEARCHER_H
+#define SEARCHER_H
+#endif
 #include <set>
 #include <vector>
 #include <queue>
@@ -32,4 +35,4 @@ class Searcher
     {
     }
     bool getSolved() {return solved;}
-}
+};

@@ -1,4 +1,7 @@
 // a state is represented by a matrix
+#ifndef STATE_H
+#define STATE_H
+
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -27,6 +30,10 @@ public:
     {
         data.resize(height*width,0);
         bubble.row=bubble.col=0;
+    }
+    State(vector<int> &datain)
+    {
+        data=datain;
     }
     friend bool operator==(State& a,State& b)
     {
@@ -152,3 +159,5 @@ public:
     }
     
 };
+
+#endif
