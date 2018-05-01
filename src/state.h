@@ -31,9 +31,11 @@ public:
         data.resize(height*width,0);
         bubble.row=bubble.col=0;
     }
-    State(vector<int> &datain)
+    State(vector<int> &datain, int bubbleIndex)
     {
         data=datain;
+        bubble.row = bubbleIndex/width;
+        bubble.col = bubbleIndex%width;
     }
     friend bool operator==(State& a,State& b)
     {
@@ -72,9 +74,10 @@ private:
     {
         if(row==block[0].row and col==block[0].col)
         {
-            if(row==block[1].row and col==block[1].col)
             return true;
         }
+        else if(row==block[1].row and col==block[1].col)
+            return true;
         else return false;
     }
 public:
