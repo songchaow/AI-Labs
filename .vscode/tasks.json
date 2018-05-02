@@ -6,10 +6,26 @@
         {
             "label": "Build",
             "type": "shell",
-            "command": "g++ -c Ah1.cpp",
+            "command": "g++ -c src/Ah1.cpp",
             "problemMatcher": [
                 "$gcc"
-            ]
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Test Build",
+            "type": "shell",
+            "command": "g++ -ggdb src/Ah1.cpp test/testinput1.cpp test/MainTest.cpp -o test.out",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

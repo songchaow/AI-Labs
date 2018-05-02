@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "set": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "initializer_list": "cpp"
     }
 }
