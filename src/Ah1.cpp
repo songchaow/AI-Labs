@@ -4,13 +4,20 @@
 int Ah1Searcher::misplaced_herustic(State &state)
 {
     vector<int>::const_iterator it = state.getDataIterator();
+    vector<int>::const_iterator begin = it;
     int len = state.getDataSize(), value = 1;
     int misp_count = 0;
-    while (len-- > 0)
+    while (len-- > 1)
     {
+        if(it-begin == state.blocks[0].row*state.width+state.blocks[0].col)
+            {it++;continue;}
+        if(it-begin == state.blocks[1].row*state.width+state.blocks[1].col)
+            {it++;continue;}
         if (*it++ != value++)
             misp_count++;
-    }
+    }//47 75
+    // check for the last zero element
+    if(*it!=0) misp_count++;
     return misp_count;
 }
 bool Ah1Searcher::search_loop()

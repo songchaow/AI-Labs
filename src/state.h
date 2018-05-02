@@ -147,7 +147,7 @@ public:
     bool moveRight(State*& newstate)
     {
         int offset = 1;
-        if(bubble.col>0)
+        if(bubble.col<width-1)
         {
             newstate = new State(*this);
             if(checkEqual(bubble.row,bubble.col+1,blocks))
