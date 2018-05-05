@@ -1,3 +1,5 @@
+#include <chrono>
+
 #include "searcher.h"
 #include "state.h"
 
@@ -26,11 +28,18 @@ bool Ah1Searcher::search_loop()
     if (frontier.empty())
         return false;
     State *node = frontier.top();
-    explored.insert(node);
     frontier.pop();
+    if(explored.find(node)!=explored.end())
+    {
+        
+        return true;
+    }
+    explored.insert(node);
+    // if not found:
     if (node->goalTest())
     {
         solved = true;
+        final_state = node;
         return true;
     }
     // expand this node
@@ -39,26 +48,35 @@ bool Ah1Searcher::search_loop()
     {
         newnode->path_cost = node->path_cost + 1;
         newnode->evaluation = newnode->path_cost + misplaced_herustic(*newnode);
-        frontier.push(newnode);
+        if(explored.find(newnode)==explored.end())
+            frontier.push(newnode);
+        else delete newnode;
     }
     if (node->moveDown(newnode))
     {
         newnode->path_cost = node->path_cost + 1;
         newnode->evaluation = newnode->path_cost + misplaced_herustic(*newnode);
-        frontier.push(newnode);
+        if(explored.find(newnode)==explored.end())
+            frontier.push(newnode);
+        else delete newnode;
     }
     if (node->moveLeft(newnode))
     {
         newnode->path_cost = node->path_cost + 1;
         newnode->evaluation = newnode->path_cost + misplaced_herustic(*newnode);
-        frontier.push(newnode);
+        if(explored.find(newnode)==explored.end())
+            frontier.push(newnode);
+        else delete newnode;
     }
     if (node->moveRight(newnode))
     {
         newnode->path_cost = node->path_cost + 1;
         newnode->evaluation = newnode->path_cost + misplaced_herustic(*newnode);
-        frontier.push(newnode);
+        if(explored.find(newnode)==explored.end())
+            frontier.push(newnode);
+        else delete newnode;
     }
+    delete node;
 }
 
 void Ah1Searcher::init()
@@ -76,6 +94,12 @@ void Ah1Searcher::reset()
 void Ah1Searcher::search()
 {
     init();
+    start_time = std::chrono::system_clock::now();
     while (search_count <= max_search_count)
+    {
         search_loop();
+        if(solved)
+            break;
+    }
+    stop_time = std::chrono::system_clock::now();
 }

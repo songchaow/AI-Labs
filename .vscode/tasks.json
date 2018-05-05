@@ -26,6 +26,18 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Test Build Release",
+            "type": "shell",
+            "command": "g++ src/Ah1.cpp test/testinput1.cpp test/MainTest.cpp -O3 -o test.out",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

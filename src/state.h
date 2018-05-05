@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <iostream>
+#include <string>
 using namespace std;
 
 typedef struct Coord_struct
@@ -19,6 +20,7 @@ private:
 protected:
     Coord bubble; // the zero value hole
     State* predecessor;
+    string trace = string();
 public:
     const Coord blocks[2]={{2,1},{2,3}};
     static const int height=5;
@@ -30,12 +32,14 @@ public:
     {
         data.resize(height*width,0);
         bubble.row=bubble.col=0;
+        predecessor = NULL;
     }
     State(vector<int> &datain, int bubbleIndex)
     {
         data=datain;
         bubble.row = bubbleIndex/width;
         bubble.col = bubbleIndex%width;
+        predecessor = NULL;
     }
     friend bool operator==(State& a,State& b)
     {
@@ -82,8 +86,10 @@ private:
     }
 public:
     vector<int>::const_iterator getDataIterator() { return data.begin();}
+    string getTrace() { return trace;}
     // get size of matrix, including two holes and zero.
     int getDataSize() {return data.size();}
+    State* getPredecessor() {return predecessor;}
     int visit(int row, int col)
     {
         return data.at(row*width+col);
@@ -100,6 +106,7 @@ public:
             newstate->set(bubble.row-1,bubble.col,0);
             newstate->bubble.row--;
             newstate->predecessor = this;
+            newstate->trace+='U';
             return true;
         }
         else
@@ -119,6 +126,7 @@ public:
             newstate->set(bubble.row+1,bubble.col,0);
             newstate->bubble.row++;
             newstate->predecessor = this;
+            newstate->trace+='D';
             return true;
         }
         else
@@ -137,8 +145,9 @@ public:
                 offset=2;
             newstate->set(bubble.row,bubble.col,visit(bubble.row,bubble.col-offset));
             newstate->set(bubble.row,bubble.col-offset,0);
-            newstate->bubble.row--;
+            newstate->bubble.col--;
             newstate->predecessor = this;
+            newstate->trace+='L';
             return true;
             
         }
@@ -154,8 +163,9 @@ public:
                 offset=2;
             newstate->set(bubble.row,bubble.col,visit(bubble.row,bubble.col+offset));
             newstate->set(bubble.row,bubble.col+offset,0);
-            newstate->bubble.row--;
+            newstate->bubble.col++;
             newstate->predecessor = this;
+            newstate->trace+='R';
             return true;
         }
         else return false;
