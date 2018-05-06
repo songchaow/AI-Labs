@@ -83,6 +83,7 @@ private:
         else if(row==block[1].row and col==block[1].col)
             return true;
         else return false;
+        //hha
     }
 public:
     vector<int>::const_iterator getDataIterator() { return data.begin();}
