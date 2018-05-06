@@ -146,7 +146,7 @@ public:
                 offset=2;
             newstate->set(bubble.row,bubble.col,visit(bubble.row,bubble.col-offset));
             newstate->set(bubble.row,bubble.col-offset,0);
-            newstate->bubble.col--;
+            newstate->bubble.col-=offset;
             newstate->predecessor = this;
             newstate->trace+='L';
             return true;
@@ -164,7 +164,7 @@ public:
                 offset=2;
             newstate->set(bubble.row,bubble.col,visit(bubble.row,bubble.col+offset));
             newstate->set(bubble.row,bubble.col+offset,0);
-            newstate->bubble.col++;
+            newstate->bubble.col+=offset;
             newstate->predecessor = this;
             newstate->trace+='R';
             return true;

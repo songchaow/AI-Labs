@@ -29,10 +29,13 @@ bool Ah1Searcher::search_loop()
         return false;
     State *node = frontier.top();
     frontier.pop();
-    if(explored.find(node)!=explored.end())
+    set<State*,StateCmp>::iterator it;
+    if((it=explored.find(node))!=explored.end())
     {
+        State* const d = (State *const)(*it);
+        // if(d->evaluation<=node->evaluation)
+        //     return true;
         
-        return true;
     }
     explored.insert(node);
     // if not found:
@@ -48,35 +51,37 @@ bool Ah1Searcher::search_loop()
     {
         newnode->path_cost = node->path_cost + 1;
         newnode->evaluation = newnode->path_cost + misplaced_herustic(*newnode);
-        if(explored.find(newnode)==explored.end())
-            frontier.push(newnode);
-        else delete newnode;
+        // it = explored.find(newnode);
+        // if(it==explored.end())
+        //     frontier.push(newnode);
+        // else if(((State *const)(*it))->evaluation>newnode->evaluation)
+        //     frontier.push(newnode);
+        // else
+        //     // delete newnode;
+        //     frontier.push(newnode);
+        frontier.push(newnode);
     }
     if (node->moveDown(newnode))
     {
         newnode->path_cost = node->path_cost + 1;
         newnode->evaluation = newnode->path_cost + misplaced_herustic(*newnode);
-        if(explored.find(newnode)==explored.end())
-            frontier.push(newnode);
-        else delete newnode;
+        frontier.push(newnode);
     }
     if (node->moveLeft(newnode))
     {
         newnode->path_cost = node->path_cost + 1;
         newnode->evaluation = newnode->path_cost + misplaced_herustic(*newnode);
-        if(explored.find(newnode)==explored.end())
-            frontier.push(newnode);
-        else delete newnode;
+        frontier.push(newnode);
     }
     if (node->moveRight(newnode))
     {
         newnode->path_cost = node->path_cost + 1;
         newnode->evaluation = newnode->path_cost + misplaced_herustic(*newnode);
-        if(explored.find(newnode)==explored.end())
-            frontier.push(newnode);
-        else delete newnode;
+        frontier.push(newnode);
     }
-    delete node;
+    long frontier_count = frontier.size();
+    long explored_count = explored.size();
+    long state_size = sizeof(State);
 }
 
 void Ah1Searcher::init()
