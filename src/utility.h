@@ -24,7 +24,7 @@ public:
             matrix.push_back(value);
             if(value==0) {bubbleIndex=matrix.size()-1;bubbleCount++;}
         }
-        if(matrix.size()!=State::height)
+        if(matrix.size()!=State::height*State::width)
             cout << "warning: wrong input element number.";
         if(bubbleCount>=2)
             cout << "warning: more than one bubble is found.";
