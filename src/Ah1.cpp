@@ -33,8 +33,8 @@ bool Ah1Searcher::search_loop()
     if((it=explored.find(node))!=explored.end())
     {
         State* const d = (State *const)(*it);
-        // if(d->evaluation<=node->evaluation)
-        //     return true;
+        if(d->evaluation<=node->evaluation)
+            return true;
         
     }
     explored.insert(node);
@@ -51,33 +51,57 @@ bool Ah1Searcher::search_loop()
     {
         newnode->path_cost = node->path_cost + 1;
         newnode->evaluation = newnode->path_cost + misplaced_herustic(*newnode);
-        // it = explored.find(newnode);
-        // if(it==explored.end())
-        //     frontier.push(newnode);
-        // else if(((State *const)(*it))->evaluation>newnode->evaluation)
-        //     frontier.push(newnode);
-        // else
-        //     // delete newnode;
-        //     frontier.push(newnode);
-        frontier.push(newnode);
+        it = explored.find(newnode);
+        if(it==explored.end())
+        // not explored before
+            frontier.push(newnode);
+        else if(((State *const)(*it))->evaluation>newnode->evaluation)
+        // we explored it before, but the new node is smaller
+            frontier.push(newnode);
+        else // this node is not wanted
+            delete newnode;
     }
     if (node->moveDown(newnode))
     {
         newnode->path_cost = node->path_cost + 1;
         newnode->evaluation = newnode->path_cost + misplaced_herustic(*newnode);
-        frontier.push(newnode);
+        it = explored.find(newnode);
+        if(it==explored.end())
+        // not explored before
+            frontier.push(newnode);
+        else if(((State *const)(*it))->evaluation>newnode->evaluation)
+        // we explored it before, but the new node is smaller
+            frontier.push(newnode);
+        else // this node is not wanted
+            delete newnode;
     }
     if (node->moveLeft(newnode))
     {
         newnode->path_cost = node->path_cost + 1;
         newnode->evaluation = newnode->path_cost + misplaced_herustic(*newnode);
-        frontier.push(newnode);
+        it = explored.find(newnode);
+        if(it==explored.end())
+        // not explored before
+            frontier.push(newnode);
+        else if(((State *const)(*it))->evaluation>newnode->evaluation)
+        // we explored it before, but the new node is smaller
+            frontier.push(newnode);
+        else // this node is not wanted
+            delete newnode;
     }
     if (node->moveRight(newnode))
     {
         newnode->path_cost = node->path_cost + 1;
         newnode->evaluation = newnode->path_cost + misplaced_herustic(*newnode);
-        frontier.push(newnode);
+        it = explored.find(newnode);
+        if(it==explored.end())
+        // not explored before
+            frontier.push(newnode);
+        else if(((State *const)(*it))->evaluation>newnode->evaluation)
+        // we explored it before, but the new node is smaller
+            frontier.push(newnode);
+        else // this node is not wanted
+            delete newnode;
     }
     long frontier_count = frontier.size();
     long explored_count = explored.size();
